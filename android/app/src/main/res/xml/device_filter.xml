@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- vendor: 0x557 / product: 0x2008: moje domaci FT232R UART -->
+    <usb-device vendor-id="1367" product-id="8200" />
+</resources>

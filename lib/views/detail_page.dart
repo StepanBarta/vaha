@@ -1,8 +1,18 @@
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:gaubeVaha/model/order_item.dart';
-
 import '../build/order.build.dart';
+
+import 'package:flutter_libserialport/flutter_libserialport.dart';
+import 'package:usb_serial/usb_serial.dart';
+
+
 import 'home_page.dart';
+
+
+
 
 class OrderDetailPage extends StatefulWidget {
   OrderDetailPage({super.key, required this.orderId});
@@ -24,7 +34,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
   List<OrderItem> orderItems = [];
   OrderBuild orderBuild = OrderBuild();
-
 
   static DateTime today = DateTime.now();
 
@@ -67,7 +76,38 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       });
     }
   }
-  
+
+  void testSeriaku() {
+    print("testuju");
+//    SerialPort spTest = SerialPort('/dev/ttyS6');
+//      final spTest = SerialPort('/dev/ttyS4');
+//      final spTest = SerialPort('/dev/ttyFIQ0'); // 13
+//      final spTest = SerialPort('/dev/ttyS9'); // 13
+//      final spTest = SerialPort('/dev/ttyS7');
+//      final spTest = SerialPort('/dev/ttyS1');
+      var spTest = SerialPort( '/dev/ttyUSB0' );
+
+    spTest.openReadWrite();
+    SerialPortReader reader = SerialPortReader(spTest);
+
+    SerialPortConfig config = spTest.config;
+//
+  //  reader.stream.listen((data) {
+    //  print(String.fromCharCodes(data));
+//    }
+  //  );
+//    SerialPortConfig config = spTest.config;
+
+//    config.baudRate = 1200;
+//    config.bits = 8;
+//    config.parity = SerialPortParity.none;
+//    config.stopBits = 1;
+
+//    spTest.config = config;
+
+    print("koncim");
+
+  }
 
   @override
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
@@ -78,8 +118,76 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 //        const TankListView(),
       ];
 
+  void uesbeSerial() async {
+    UsbPort? port;
+    // Získání seznamu dostupných USB zařízení
+    List<UsbDevice> devices = await UsbSerial.listDevices();
+//    print(devices);
+    port = await devices[0].create();
+
+    bool? openResult = await port?.open();
+    if ( !openResult! ) {
+      print("Failed to open");
+      return;
+    }
+
+    await port?.setDTR(true);
+    await port?.setRTS(true);
+
+    port?.setPortParameters(1200, UsbPort.DATABITS_8,
+        UsbPort.STOPBITS_1, UsbPort.PARITY_NONE);
+
+    String text = "";
+
+    port?.inputStream?.listen((Uint8List event) {
+      String receivedText = String.fromCharCodes(event);
+      int ascii = receivedText.codeUnitAt(0);
+
+
+      if ( ascii == 10 ) {
+        _weightController.text = text;
+        text = "";
+      } else if ( ascii >= 46 && ascii <= 57 ) {
+        text += receivedText;
+      }
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
+    uesbeSerial();
+
+
+
+
+
+/*
+      var i = 0;
+      for (final name in SerialPort.availablePorts) {
+        final sp = SerialPort(name);
+        print('${++i}) $name');
+        print('\tDescription: ${sp.description}');
+        print('\tManufacturer: ${sp.manufacturer}');
+        print('\tSerial Number: ${sp.serialNumber}');
+        if ( sp.description == "USB-Serial Controller D" ) {
+          print('\tProduct ID: 0x${sp.productId!.toRadixString(16)}');
+          print('\tVendor ID: 0x${sp.vendorId!.toRadixString(16)}');
+        }
+        sp.dispose();
+      }
+*/
+      /*
+      SerialPortConfig spConfig = SerialPortConfig();
+        spConfig.baudRate = 9600;
+        spConfig.bits = 8;
+        spConfig.parity = SerialPortParity.none;
+        spConfig.stopBits = 1;
+*/
+
+
     return Scaffold(
       // ...
       body: Column(
@@ -101,9 +209,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Zde můžete přidat kód, který se provede po stisknutí tlačítka
+                    testSeriaku();
                   },
-                  child: Text('Info'),
+                  child: Text('Infa'),
                 ),
                 ElevatedButton(
                   onPressed: () {

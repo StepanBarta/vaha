@@ -521,7 +521,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cz.targetmedia.pivaris3a;
+				PRODUCT_BUNDLE_IDENTIFIER = cz.blund.vahy;
 				PRODUCT_NAME = Pivaris3mob;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

@@ -9,6 +9,10 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.1.5" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.10" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_windows-2.0.7" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_libserialport-0.2.3" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler_html-0.1.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler-11.3.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/usb_serial-0.5.1" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

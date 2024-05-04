@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 
 def flutterApplicationId = localProperties.getProperty('flutter.applicationId')
 if (flutterApplicationId == null) {
-    flutterApplicationId = 'cz.targetmedia.pivaris3a' // 'com.example.pivaris3mob'
+    flutterApplicationId = 'cz.blund.vahy' //
 }
 
 def flutterCompileSdkVersion = localProperties.getProperty('flutter.compileSdkVersion')

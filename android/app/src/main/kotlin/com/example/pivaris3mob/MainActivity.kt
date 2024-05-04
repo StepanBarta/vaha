@@ -1,4 +1,4 @@
-package cz.targetmedia.pivaris3a
+package cz.blund.vahy
 
 import io.flutter.embedding.android.FlutterActivity
 
