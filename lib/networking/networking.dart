@@ -50,7 +50,9 @@ class NetworkHelper extends Auth {
   }
 
   void _processStatusList(statusList) {
-    if (statusList != null && statusList.isNotEmpty) {
+//    if (statusList != null && statusList.isEmpty ) {
+
+    if (statusList != null ) {
       for (var item in statusList) {
         if (item['status'] == 'auth_error') {
           Navigator.pushAndRemoveUntil(
@@ -125,6 +127,7 @@ class NetworkHelper extends Auth {
         // no error encounter
 
         String resBody = response.body;
+
         final Map<String, dynamic> resBodyJson = jsonDecode(resBody);
 
         _processStatusList(resBodyJson['status_list']);

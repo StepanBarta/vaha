@@ -6,6 +6,8 @@ ovladani detailu objednavky - 30.4 - 20:15 - 23:00
 ovladani detailu objednavky - 1.5 - 19:00 - 23:00
 propisovani vahy do objednavky 2.5 - 21:15 - 23:59
 seriova komunikace, uprava UI - 4.5 - 9:00 - 22:00
+uprava UI - 5.5 - 6:45 - 8:30
+uprava UI - 5.5 - 15:00 - 18:30
 
 
 
@@ -21,7 +23,6 @@ import 'package:gaubeVaha/views/login_page.dart';
 
 
 void main() {
-  // disable device lanscape mode
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.portraitDown]);
@@ -76,13 +77,10 @@ class _ScreenState extends State<Screen> {
         future: VerifyUserBuild().verifyUser(),
         builder: (context, AsyncSnapshot<dynamic> snapshot) {
           if (!snapshot.hasData) {
-            print("jojo");
             return _loadingScreen();
           } else if (snapshot.data == true) {
-            print("dede");
             return const HomePage();
           } else {
-            print("lala");
             return const LoginPage();
 //            return const HomePage();
           }

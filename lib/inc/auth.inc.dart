@@ -37,40 +37,4 @@ class Auth {
     return Global.serverAddress;
   }
 
-
-  setServerName(name) async {
-    final SharedPreferences prefs = await _prefs;
-    await prefs.setString(serverKey, name);
-  }
-
-  deleteServerName() async {
-    final SharedPreferences prefs = await _prefs;
-    prefs.remove(serverKey);
-  }
-
-  getUserName() async {
-    final SharedPreferences prefs = await _prefs;
-    final token = prefs.getString(userNameKey) ?? '';
-
-    return token;
-  }
-
-  getUserPass() async {
-    final SharedPreferences prefs = await _prefs;
-    final token = prefs.getString(userPassKey) ?? '';
-
-    return token;
-  }
-
-  setUserCredentials(name, pass) async {
-    final SharedPreferences prefs = await _prefs;
-    await prefs.setString(userNameKey, name);
-    await prefs.setString(userPassKey, pass);
-  }
-
-  deleteUserCredentials() async {
-    final SharedPreferences prefs = await _prefs;
-    prefs.remove(userNameKey);
-    prefs.remove(userPassKey);
-  }
 }

@@ -3,22 +3,16 @@ import 'package:gaubeVaha/inc/funkce.inc.dart';
 import 'package:gaubeVaha/networking/networking.dart';
 
 class LoginBuild extends Auth {
-  LoginBuild(this.userName, this.userPass, this.serverName);
+  LoginBuild( this.userPin );
 
-  final String userName;
-  final String userPass;
-  final String serverName;
+  final String userPin;
 
   loginSubmit() async {
-    await setServerName(serverName.trim());
-
     NetworkHelper networkHelper = NetworkHelper(
-      module: 'login',
-      action: 'submit',
+      module: 'uhk',
+      action: 'submit-login',
       data: {
-        'name': userName,
-        'user_pass': userPass,
-        'mobile': 'true',
+        'pin': userPin
       },
     );
 
@@ -35,14 +29,10 @@ class LoginBuild extends Auth {
 
       if (isLogged) {
         await setAccessToken(resData['data']);
-        await setUserCredentials(userName, userPass);
-      } else {
-        await deleteUserCredentials();
       }
-
+print("konec loginu");
       return isLogged;
     } else {
-      await deleteServerName();
       return false;
     }
   }

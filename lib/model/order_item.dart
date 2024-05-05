@@ -3,7 +3,7 @@ class OrderItem {
   final int parentId;
   String name;
   final int storeCardId;
-  final double qty;
+  double qty;
   final String ordered;
   final String orderedQty;
   String userWeight = '';

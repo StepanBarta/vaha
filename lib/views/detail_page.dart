@@ -12,6 +12,7 @@ import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:usb_serial/usb_serial.dart';
 
 
+import 'custom_list_tile.dart';
 import 'home_page.dart';
 
 
@@ -72,7 +73,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   void setOrderItemWeight() {
     if (_selectedOrderItem != null) {
       _selectedOrderItem!.userWeight = userWeight;
-      _selectedOrderItem!.name += " - ${_selectedOrderItem!.userWeight}";
+//      _selectedOrderItem!.name += " - ${_selectedOrderItem!.userWeight}";
+      _selectedOrderItem!.qty = double.parse(_selectedOrderItem!.userWeight.replaceAll(',', '.') );
       _weightController.text = '';
       userWeight = '';
       _setOrderItemWeight();
@@ -274,7 +276,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   onPressed: () {
                     uesbeSerial();
                   },
-                  child: Text('Tlačítko 3'),
+                  child: Text('Připojit váhu'),
                 ),
               ],
             ),
@@ -290,6 +292,19 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     itemCount: orderItems.length,
                     itemBuilder: (context, index) {
                       final item = orderItems[index];
+                      return MyCustomListTile(
+                        text1: item.name,
+                        text2: item.ordered,
+                        text3: item.qty.toString(),
+                        onTap: () {
+                          setState(() {
+                            _selectedOrderItem = item;
+                          });
+                        },
+
+                        isSelected: item == _selectedOrderItem, // Předání podmínky pro výběr položky
+                      );
+                      /*
                       return ListTile(
                         tileColor: item == _selectedOrderItem ? Colors.blue : null, // Změna barvy pozadí, pokud je položka vybrána
                         title: Text(item.name),
@@ -300,6 +315,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           });
                         },
                       );
+                       */
                     },
                   ),
                 ),

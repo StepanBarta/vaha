@@ -1,5 +1,6 @@
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gaubeVaha/inc/auth.inc.dart';
 import 'package:gaubeVaha/inc/funkce.inc.dart';
@@ -20,7 +21,7 @@ class _LoginPageState extends State<LoginPage> with Auth {
 
   final _userPinController = TextEditingController();
 
-
+  String _userPin = '';
   bool isLoading = false;
 
   @override
@@ -38,32 +39,33 @@ class _LoginPageState extends State<LoginPage> with Auth {
 
 
   void _prefillLoginForm() async {
-    _userPinController.text = "***";
+    _userPinController.text = "";
   }
 
-/*
-  void _submitLogin() async {
-    _setIsLoading(true);
 
-    if (serverName.text.isNotEmpty) {
+  void _submitLogin() async {
+//    _setIsLoading(true);
+
+    if (_userPin.isNotEmpty && _userPin.length > 2 ) {
       LoginBuild log = LoginBuild(
-        userName.text,
-        userPass.text,
-        serverName.text,
+        _userPin
       );
       bool isLogged = await log.loginSubmit();
 
       if (isLogged) {
         await _verifyUser();
         _redirectToMainPage();
+      } else {
+        _userPinController.text = "";
+        _userPin = "";
       }
     } else {
-      notificationAlert(message: 'Zadejte server');
+      notificationAlert(message: 'Zadejte PIN alespoň 3 znaky.');
     }
 
-    _setIsLoading(false);
+//    _setIsLoading(false);
   }
- */
+
 
   void _neco() {
     _verifyUser();
@@ -73,6 +75,20 @@ class _LoginPageState extends State<LoginPage> with Auth {
     VerifyUserBuild ver = VerifyUserBuild();
     await ver.verifyUser();
     if (mounted) setState(() {});
+  }
+
+  void _addCharToPin(String char) {
+    _userPin += char;
+    _userPinController.text = '';
+
+    for ( int i=0; i<_userPin.length; i++) {
+      _userPinController.text += '*';
+    }
+  }
+
+  void _clearPin() {
+    _userPin = '';
+    _userPinController.text = '';
   }
 
   void _redirectToMainPage() {
@@ -93,25 +109,42 @@ class _LoginPageState extends State<LoginPage> with Auth {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Custom Keyboard Page'),
+        title: Text('Zadejte PIN pro přihlášení'),
       ),
       body: Column(
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width * 0.3,
+            width: MediaQuery.of(context).size.width * 0.2,
             child: GridView.count(
               shrinkWrap: true,
               crossAxisCount: 3,
               children: List.generate(9, (index) {
                 return ElevatedButton(
                   onPressed: () {
-                    _userPinController.text = '${_userPinController.text}${index + 1}';
+                    _addCharToPin( '${index + 1}');
                   },
                   child: Text('${index + 1}'),
                 );
               }),
             ),
           ),
+
+          Container(
+            width: MediaQuery.of(context).size.width * 0.2, // 20% of screen height
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // This will space the buttons evenly
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    _clearPin();
+                  },
+                  child: Text('C'),
+                ),
+
+              ],
+            ),
+          ),
+
 
           Container(
             height: 100,
@@ -132,12 +165,12 @@ class _LoginPageState extends State<LoginPage> with Auth {
           ),          // Button
           Container(
             height: 100,
-            width: MediaQuery.of(context).size.width * 0.3,
+            width: MediaQuery.of(context).size.width * 0.2,
             child: ElevatedButton(
               onPressed: () {
-                print('login');
+                _submitLogin();
               },
-              child: Text('Uložit váhu'),
+              child: Text('Přihlásit'),
             ),
           ),
         ],

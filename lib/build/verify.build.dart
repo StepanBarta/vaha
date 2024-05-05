@@ -38,7 +38,6 @@ class VerifyUserBuild extends Auth with User {
         return false;
       }
     } catch (e) {
-      deleteServerName();
       return false;
     }
   }
