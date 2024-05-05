@@ -18,10 +18,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with Auth {
 
-  // of the TextField.
-  final userName = TextEditingController();
-  final userPass = TextEditingController();
-  final serverName = TextEditingController();
+  final _userPinController = TextEditingController();
 
 
   bool isLoading = false;
@@ -35,20 +32,16 @@ class _LoginPageState extends State<LoginPage> with Auth {
 
   @override
   void dispose() {
-    userName.dispose();
-    userPass.dispose();
-    serverName.dispose();
+    _userPinController.dispose();
     super.dispose();
   }
 
 
   void _prefillLoginForm() async {
-    userName.text = await getUserName();
-    userPass.text = await getUserPass();
-    serverName.text = await getServerName();
+    _userPinController.text = "***";
   }
 
-
+/*
   void _submitLogin() async {
     _setIsLoading(true);
 
@@ -70,6 +63,7 @@ class _LoginPageState extends State<LoginPage> with Auth {
 
     _setIsLoading(false);
   }
+ */
 
   void _neco() {
     _verifyUser();
@@ -95,6 +89,65 @@ class _LoginPageState extends State<LoginPage> with Auth {
     });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Custom Keyboard Page'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width * 0.3,
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 3,
+              children: List.generate(9, (index) {
+                return ElevatedButton(
+                  onPressed: () {
+                    _userPinController.text = '${_userPinController.text}${index + 1}';
+                  },
+                  child: Text('${index + 1}'),
+                );
+              }),
+            ),
+          ),
+
+          Container(
+            height: 100,
+            width: double.infinity,
+            child: TextField(
+              controller: _userPinController,
+              enabled: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+              ),
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 40,
+              ),
+            ),
+          ),          // Button
+          Container(
+            height: 100,
+            width: MediaQuery.of(context).size.width * 0.3,
+            child: ElevatedButton(
+              onPressed: () {
+                print('login');
+              },
+              child: Text('Uložit váhu'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
+/*
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -230,4 +283,5 @@ class _LoginPageState extends State<LoginPage> with Auth {
       ),
     );
   }
+ */
 }

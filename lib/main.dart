@@ -5,6 +5,7 @@ nacitani seznamu polozek - 24.4. - 19:30 - 23:20
 ovladani detailu objednavky - 30.4 - 20:15 - 23:00
 ovladani detailu objednavky - 1.5 - 19:00 - 23:00
 propisovani vahy do objednavky 2.5 - 21:15 - 23:59
+seriova komunikace, uprava UI - 4.5 - 9:00 - 22:00
 
 
 
@@ -15,15 +16,15 @@ import 'package:gaubeVaha/build/verify.build.dart';
 import 'package:gaubeVaha/store/global_keys.dart';
 import 'package:gaubeVaha/store/store_global.dart';
 import 'package:gaubeVaha/views/home_page.dart';
-import 'package:gaubeVaha/views/login_page.dart';
 import 'package:flutter/services.dart';
+import 'package:gaubeVaha/views/login_page.dart';
 
 
 void main() {
   // disable device lanscape mode
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+      [DeviceOrientation.landscapeLeft, DeviceOrientation.portraitDown]);
 
   runApp(const MyApp());
 }
@@ -82,8 +83,8 @@ class _ScreenState extends State<Screen> {
             return const HomePage();
           } else {
             print("lala");
-//            return const LoginPage();
-            return const HomePage();
+            return const LoginPage();
+//            return const HomePage();
           }
         },
       );
